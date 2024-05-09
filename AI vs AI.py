@@ -5,7 +5,7 @@ import time
 class TicTacToe:
     def __init__(self):
         self.current_player = "X"
-        self.board = [["" for _ in range(3)] for _ in range(3)]
+        self.board = [["" for _ in range(3)] for _ in range(3)]            
         self.root = tk.Tk()
         self.root.title("Tic Tac Toe - AI Vs AI")
         self.root.configure(bg='white') 
@@ -13,7 +13,7 @@ class TicTacToe:
         for i in range(3):
             for j in range(3):
                 self.buttons[i][j] = tk.Button(self.root, text="", font=('Arial', 30), width=4, height=2,
-                                                command=lambda i=i, j=j: self.on_button_click(i, j), bg='yellow') 
+                command=lambda i=i, j=j: self.on_button_click(i, j), bg='yellow') 
                 self.buttons[i][j].grid(row=i, column=j)
         self.status_label = tk.Label(self.root, text="Player X's turn", font=('Arial', 14), bg='white')
         self.status_label.grid(row=3, columnspan=3)
@@ -48,10 +48,11 @@ class TicTacToe:
         print(f"{self.current_player} chose ", move, "& best score:", best_score)
         self.board[row][col] = self.current_player
         self.buttons[row][col].config(text=self.current_player)
-        if self.check_winner():
-            self.show_result(f"{self.current_player} wins!")
-        elif self.check_draw():
+        if self.check_draw():
             self.show_result("It's a draw!")
+        elif self.check_winner():
+            self.show_result(f"{self.current_player} wins!")
+        
 
     def minimax(self, is_maximizing):
         if self.check_winner():
@@ -86,20 +87,20 @@ class TicTacToe:
             return best_score
 
     def check_winner(self):
-       
         for row in self.board:
             if row[0] == row[1] == row[2] != "":
                 return True
-        
+            
         for col in range(3):
             if self.board[0][col] == self.board[1][col] == self.board[2][col] != "":
                 return True
-        
+            
         if self.board[0][0] == self.board[1][1] == self.board[2][2] != "":
             return True
-        if self.board[0][2] == self.board[1][1] == self.board[2][0] != "":
+        if self.board[0][2] == self.board[1][2] == self.board[2][1] != "":
             return True
-        return False
+        
+        return False  
 
     def check_draw(self):
         for row in self.board:
@@ -107,6 +108,7 @@ class TicTacToe:
                 if cell == "":
                     return False
         return True
+
 
     def show_result(self, message):
         print(message)
@@ -116,3 +118,4 @@ class TicTacToe:
 if __name__ == "__main__":
     game = TicTacToe()
     game.root.mainloop()
+                
